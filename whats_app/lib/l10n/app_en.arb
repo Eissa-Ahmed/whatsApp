@@ -1,0 +1,179 @@
+{
+    "welcome": "Welcome You in WhatsApp",
+    "@welcome": {
+      "description": "this text in first page to select lang"
+    },
+    "choose": "Choose your language to get started",
+    "@choose": {
+      "description": "this text in first page to select lang"
+    },
+    "arbic": "Arbic",
+    "@arbic": {
+      "description": "arbic language"
+    },
+    "english": "English",
+    "@english": {
+      "description": "english language"
+    },
+    "disArbic": "اللغة العربية",
+    "@disArbic": {
+      "description": "arbic language"
+    },
+    "disEnglish": "اللغة الانجليزية",
+    "@disEnglish": {
+      "description": "english language"
+    },
+    "currentLang": "Device Language",
+    "@currentLang": {
+      "description": "this text for current Lang"
+
+    },
+    "welcomeWhats": "Welcome you in WhatsApp",
+    "@welcomeWhats": {
+      "description": "welcome message"
+    },
+    "read": "Read ",
+    "@read": {
+      "description": "dis text buttom page"
+    },
+    "privacy": "Privacy policy ",
+    "@privacy": {
+      "description": "dis text buttom page"
+    },
+    "click": "Click \"Agree and Continue\" to Accept",
+    "@click": {
+      "description": "dis text buttom page"
+    },
+    "service": "Terms of Service",
+    "@service": {
+      "description": "dis text buttom page"
+    },
+    "buttomAgree": "Agree and Continue",
+    "@buttomAgree": {
+      "description": "buttomAgree"
+    },
+    "appLang": "Application Language",
+    "@appLang": {
+      "description": "buttom sheet text"
+    },
+    "enterPhone": "Enter Your Phone",
+    "@enterPhone": {
+      "description": "Enter Your Phone"
+    },
+    "verifyYourPhone": "WhatsApp will need to verify your phone number",
+    "@verifyYourPhone": {
+      "description": "Enter Your Phone"
+    },
+    "whatisNumber": "What is my number?",
+    "@whatisNumber": {
+      "description": "Enter Your Phone"
+    },
+    "next": "Next",
+    "@next": {
+      "description": "Enter Your Phone"
+    },
+    "help": "Help",
+    "@help": {
+      "description": "Enter Your Phone"
+    },
+    "fee": "Your carrier may apply fees.",
+    "@fee": {
+      "description": "Enter Your Phone"
+    },
+    "enterdPhone": "You have entered the phone number:",
+    "@enterdPhone": {
+      "description": "Enter Your Phone"
+    },
+    "rightPhone": "Is this number correct? Or do you want to change",
+    "@rightPhone": {
+      "description": "Enter Your Phone"
+    },
+    "edit": "Edit",
+    "@edit": {
+      "description": "Enter Your Phone"
+    },
+    "ok": "Ok",
+    "@ok": {
+      "description": "Enter Your Phone"
+    },
+    "requird": "Requied !",
+    "@requird": {
+      "description": "Enter Your Phone"
+    },
+    "checkPhone": "Your number is being verified",
+    "@checkPhone": {
+      "description": "Enter Your Phone"
+    },
+    "sendedMessage": "Waiting for automatic detection of a message sent to me",
+    "@sendedMessage": {
+      "description": "Enter Your Phone"
+    },
+    "editNumber": "Modify the number?",
+    "@editNumber": {
+      "description": "Enter Your Phone"
+    },
+    "enterCode": "Enter the 6-digit code",
+    "@enterCode": {
+      "description": "Enter Your Phone"
+    },
+    "noSended": "Didn't you receive the code?",
+    "@noSended": {
+      "description": "Enter Your Phone"
+    },
+    "wrong": "Code Wrong !",
+    "@wrong": {
+      "description": "Enter Your Phone"
+    },
+    "selfInfo": "personal information",
+    "@selfInfo": {
+      "description": "Enter Your Phone"
+    },
+    "pleaseEnterName": "Please enter your name and select a personal photo. The photo is not mandatory.",
+    "@pleaseEnterName": {
+      "description": "Enter Your Phone"
+    },
+    "gary": "Initializing...",
+    "@gary": {
+      "description": "Enter Your Phone"
+    },
+    "wait": "Please wait a moment.",
+    "@wait": {
+      "description": "Enter Your Phone"
+    },
+    "contact": "Contacts and media",
+    "@contact": {
+      "description": "contact"
+    },
+    "allow": "To easily send photos and media to friends and family, you must allow WhatsApp to access your contacts, media, and photos.",
+    "@allow": {
+      "description": "allow"
+    },
+    "notNow": "not now",
+    "@notNow": {
+      "description": "contact"
+    },
+    "follow": "Follow up",
+    "@follow": {
+      "description": "contact"
+    },
+    "chats": "Chats",
+    "@chats": {
+      "description": "contact"
+    },
+    "calls": "Calls",
+    "@calls": {
+      "description": "contact"
+    },
+    "story": "Story",
+    "@story": {
+      "description": "contact"
+    },
+    "whats": "Whats App",
+    "@whats": {
+      "description": "contact"
+    },
+    "writeMessage": "write Message",
+    "@writeMessage": {
+      "description": "writeMessage"
+    }
+}

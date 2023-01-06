@@ -1,0 +1,178 @@
+{
+  "welcome": "مرحبا بك فى واتساب",
+  "@welcome": {
+    "description": "this text in first page to select lang"
+  },
+  "choose": "اختر لغتك من اجل البدء",
+  "@choose": {
+    "description": "this text in first page to select lang"
+  },
+  "arbic": "العربية",
+  "@arbic": {
+    "description": "arbic language"
+  },
+  "english": "الانجليزية",
+  "@english": {
+    "description": "english language"
+  },
+  "disArbic": "Arbic language",
+  "@disArbic": {
+    "description": "arbic language"
+  },
+  "disEnglish": "English language",
+  "@disEnglish": {
+    "description": "english language"
+  },
+  "currentLang": "لغة الجهاز",
+  "@currentLang": {
+    "description": "this text for current Lang"
+  },
+  "welcomeWhats": "أهلا بك فى واتساب",
+  "@welcomeWhats": {
+    "description": "welcome message"
+  },
+  "read": "اقرا ",
+  "@read": {
+    "description": "dis text buttom page"
+  },
+  "privacy": "سياسة الخصوصية. ",
+  "@privacy": {
+    "description": "dis text buttom page"
+  },
+  "click": "انقر علي \"الموافقة والمتابعة\" لقبول ",
+  "@click": {
+    "description": "dis text buttom page"
+  },
+  "service": "شروط الخدمة",
+  "@service": {
+    "description": "dis text buttom page"
+  },
+  "buttomAgree": "الموافقة والمتابعة",
+  "@buttomAgree": {
+    "description": "buttomAgree"
+  },
+  "appLang": "لغة التطبيق",
+  "@appLang": {
+    "description": "buttom sheet text"
+  },
+  "enterPhone": "ادخل رقم هاتفك",
+  "@enterPhone": {
+    "description": "Enter Your Phone"
+  },
+  "verifyYourPhone": "سيحتاج واتساب الي التحقق من رقم هاتفك ",
+  "@verifyYourPhone": {
+    "description": "Enter Your Phone"
+  },
+  "whatisNumber": "ماهو رقمي؟",
+  "@whatisNumber": {
+    "description": "Enter Your Phone"
+  },
+  "next": "التالى",
+  "@next": {
+    "description": "Enter Your Phone"
+  },
+  "help": "مساعدة",
+  "@help": {
+    "description": "Enter Your Phone"
+  },
+  "fee": "قد تطبق شركة الاتصالات رسوما",
+  "@fee": {
+    "description": "Enter Your Phone"
+  },
+  "enterdPhone": "لقد ادخلت رقم الهاتف :",
+  "@enterdPhone": {
+    "description": "Enter Your Phone"
+  },
+  "rightPhone": "هل هذا الرقم صحيح . ام تريد التغير",
+  "@rightPhone": {
+    "description": "Enter Your Phone"
+  },
+  "edit": "تعديل",
+  "@edit": {
+    "description": "Enter Your Phone"
+  },
+  "ok": "موافق",
+  "@ok": {
+    "description": "Enter Your Phone"
+  },
+  "requird": "مطلوب !",
+  "@requird": {
+    "description": "Enter Your Phone"
+  },
+  "checkPhone": "جارى التحقق من رقمك",
+  "@checkPhone": {
+    "description": "Enter Your Phone"
+  },
+  "sendedMessage": "فى انتظار الكشف التلقائي عن رسالة ارسلت الي",
+  "@sendedMessage": {
+    "description": "Enter Your Phone"
+  },
+  "editNumber": " تعديل الرقم؟",
+  "@editNumber": {
+    "description": "Enter Your Phone"
+  },
+  "enterCode": "ادخل الكود المكون من 6 ارقام",
+  "@enterCode": {
+    "description": "Enter Your Phone"
+  },
+  "noSended": "الم تتلقي الكود ؟",
+  "@noSended": {
+    "description": "Enter Your Phone"
+  },
+  "wrong": "الكود خطأ !",
+  "@wrong": {
+    "description": "Enter Your Phone"
+  },
+  "selfInfo": "المعلومات الشخصية",
+  "@selfInfo": {
+    "description": "Enter Your Phone"
+  },
+  "pleaseEnterName": "الرجاء ادخال اسمك وتحديد الصورة الشخصية. الصورة غير الزامية",
+  "@pleaseEnterName": {
+    "description": "Enter Your Phone"
+  },
+  "gary": "جارى التهيئة...",
+  "@gary": {
+    "description": "Enter Your Phone"
+  },
+  "wait": "الرجاء الانتظار لحظة",
+  "@wait": {
+    "description": "Enter Your Phone"
+  },
+  "contact": "جهات الاتصال والوسائط",
+  "@contact": {
+    "description": "contact"
+  },
+  "allow": "لارسال الصور والوسائط بسهولة الي الاصدقاء والعائلة يجب السماح لوتساب بالوصول الي جهات الاتصال والوسائط والصور",
+  "@allow": {
+    "description": "allow"
+  },
+  "notNow": "ليس الان",
+  "@notNow": {
+    "description": "contact"
+  },
+  "follow": "متابعة",
+  "@follow": {
+    "description": "contact"
+  },
+  "chats": "الدردشات",
+  "@chats": {
+    "description": "contact"
+  },
+  "calls": "المكالمات",
+  "@calls": {
+    "description": "contact"
+  },
+  "story": "الحالة",
+  "@story": {
+    "description": "contact"
+  },
+  "whats": "واتساب",
+  "@whats": {
+    "description": "contact"
+  },
+  "writeMessage": "مراسلة",
+  "@writeMessage": {
+    "description": "writeMessage"
+  }
+}
