@@ -175,5 +175,17 @@
     "writeMessage": "write Message",
     "@writeMessage": {
       "description": "writeMessage"
+    },
+    "socity": "About the communities",
+    "@socity": {
+      "description": "socity"
+    },
+    "socitydis": "Communities enable you to easily include your similar groups and send notifications to them. Combine your neighborhood groups or your school's groups in one community to facilitate communication between them.",
+    "@socitydis": {
+      "description": "socitydis"
+    },
+    "createSocity": "Create your community",
+    "@createSocity": {
+      "description": "createSocity"
     }
 }

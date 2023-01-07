@@ -104,6 +104,7 @@ ThemeData lightTheme() {
     textTheme: TextTheme(
       displayLarge: bold(FontSizeManager.fs_32, ColorsManager.primaryColorDark),
       bodyMedium: medium(FontSizeManager.fs_18, ColorsManager.primaryColorDark),
+      bodyLarge: medium(FontSizeManager.fs_22, ColorsManager.primaryColorDark),
       bodySmall: regular(FontSizeManager.fs_14, ColorsManager.primaryColorDark),
       labelSmall: regular(FontSizeManager.fs_14, ColorsManager.grey),
       titleSmall:
@@ -222,6 +223,7 @@ ThemeData darkTheme() {
       displayLarge: bold(FontSizeManager.fs_32, ColorsManager.white),
       bodyMedium: medium(FontSizeManager.fs_18, ColorsManager.white),
       bodySmall: regular(FontSizeManager.fs_14, ColorsManager.white),
+      bodyLarge: medium(FontSizeManager.fs_22, ColorsManager.white),
       labelSmall: regular(FontSizeManager.fs_14, ColorsManager.grey),
       titleSmall: regular(FontSizeManager.fs_14, ColorsManager.white),
       headlineMedium: medium(FontSizeManager.fs_18, ColorsManager.white),

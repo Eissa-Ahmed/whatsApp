@@ -174,5 +174,17 @@
   "writeMessage": "مراسلة",
   "@writeMessage": {
     "description": "writeMessage"
+  },
+  "socity": "نبذة عن المجتمعات",
+  "@socity": {
+    "description": "socity"
+  },
+  "socitydis": "تمكنك المجتمعات من تضمين مجموعاتك المتشابهة وارسال الاعلامات اليها بسهولة. اجمع مجموعات الحي الذى تقطنه او مجموعات مدرستك فى مجتمع واحد ليسهل التواصل بينهما.",
+  "@socitydis": {
+    "description": "socitydis"
+  },
+  "createSocity": "انشئ مجتمعك",
+  "@createSocity": {
+    "description": "createSocity"
   }
 }

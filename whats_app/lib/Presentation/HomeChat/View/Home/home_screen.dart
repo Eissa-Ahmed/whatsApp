@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
+import 'package:whats_app/Presentation/HomeChat/View/Group/group_screen.dart';
 import 'package:whats_app/Presentation/HomeChat/View/Home/Widgets/chats.dart';
 import 'package:whats_app/Presentation/Resources/constants.dart';
 import 'package:whats_app/Presentation/Resources/fonts_manager.dart';
@@ -113,7 +114,7 @@ class HomeScreen extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            Icon(Icons.group),
+            GroupScreen(),
             ChatsScreen(),
             Icon(Icons.circle),
             Icon(Icons.call),
