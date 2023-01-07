@@ -27,10 +27,16 @@ class HomeCubit extends Cubit<HomeState> {
   File? imageProfile;
   FocusNode focusNode = FocusNode();
   bool showEmoji = true;
+  bool showMedia = false;
 
   //Lists
 
   //Functions
+  void showMediaList() {
+    showMedia = !showMedia;
+    emit(ShowMediaListState());
+  }
+
   void colseEmoji() {
     if (!showEmoji) {
       showEmoji = true;

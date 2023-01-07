@@ -10,3 +10,5 @@ class LoginSuccessState extends HomeState {}
 class ShowEmojiState extends HomeState {}
 
 class CloseEmojiState extends HomeState {}
+
+class ShowMediaListState extends HomeState {}
