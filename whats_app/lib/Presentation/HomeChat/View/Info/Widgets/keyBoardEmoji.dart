@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' as foundation;
 
 import '../../../ViewModel/home_cubit.dart';
 
-Offstage keyBoardEmoji(HomeCubit cubit) {
+Offstage keyBoardEmoji(HomeCubit cubit, TextEditingController controller) {
   return Offstage(
     offstage: cubit.showEmoji,
     child: SizedBox(
@@ -14,7 +14,7 @@ Offstage keyBoardEmoji(HomeCubit cubit) {
         onBackspacePressed: () {
           // Do something when the user taps the backspace button (optional)
         },
-        textEditingController: cubit.nameController,
+        textEditingController: controller,
         config: Config(
           columns: 7,
           emojiSizeMax: 32 *

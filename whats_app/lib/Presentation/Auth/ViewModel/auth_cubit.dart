@@ -142,7 +142,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> saveDataUser() async {
-    await Apis().saveDataUser();
+    await Apis().saveDataUser(phoneController.text);
   }
 
   Future<void> getDataUser() async {

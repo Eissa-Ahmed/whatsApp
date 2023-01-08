@@ -87,7 +87,7 @@ class InfoScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              keyBoardEmoji(cubit),
+              keyBoardEmoji(cubit, cubit.nameController),
             ],
           ),
         );

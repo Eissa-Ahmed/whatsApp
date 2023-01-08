@@ -7,7 +7,7 @@ import 'package:whats_app/Presentation/HomeChat/View/Info/loading_screen.dart';
 import 'package:whats_app/Presentation/HomeChat/View/SingleChat/singleChat.dart';
 import 'package:whats_app/Presentation/Resources/strings_manager.dart';
 
-import '../../Domain/itemChatModel.dart';
+import '../../Domain/userModel.dart';
 import '../Auth/View/welcome/welcome_screen.dart';
 import '../HomeChat/View/Home/home_screen.dart';
 
@@ -39,10 +39,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case Pages.loading:
       return MaterialPageRoute(builder: (_) => const LoadingScreen());
     case Pages.singleChat:
-      ItemChatModel args = settings.arguments as ItemChatModel;
+      UserModel args = settings.arguments as UserModel;
       return MaterialPageRoute(
           builder: (_) => SingleChat(
-                itemChatModel: args,
+                userModel: args,
               ));
     default:
       return MaterialPageRoute(

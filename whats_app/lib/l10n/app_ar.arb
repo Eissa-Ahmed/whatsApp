@@ -186,5 +186,13 @@
   "createSocity": "انشئ مجتمعك",
   "@createSocity": {
     "description": "createSocity"
+  },
+  "you": "انت: ",
+  "@you": {
+    "you": "you"
+  },
+  "forYou": "لك: ",
+  "@forYou": {
+    "you": "forYou"
   }
 }

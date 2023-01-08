@@ -1,9 +1,14 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:whats_app/Domain/itemChatModel.dart';
+import 'package:lottie/lottie.dart';
+import 'package:sizer/sizer.dart';
+import 'package:whats_app/Data/apis.dart';
+import 'package:whats_app/Domain/messageModel.dart';
+import 'package:whats_app/Domain/userModel.dart';
 import 'package:whats_app/Presentation/HomeChat/View/Info/Widgets/keyBoardEmoji.dart';
 import 'package:whats_app/Presentation/HomeChat/ViewModel/home_cubit.dart';
 import 'package:whats_app/Presentation/Resources/fonts_manager.dart';
@@ -14,8 +19,8 @@ import '../../../Resources/constants.dart';
 import '../../../Resources/values_manager.dart';
 
 class SingleChat extends StatelessWidget {
-  SingleChat({super.key, required this.itemChatModel});
-  ItemChatModel itemChatModel;
+  SingleChat({super.key, required this.userModel});
+  UserModel userModel;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +84,7 @@ class SingleChat extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: DefualtValue.d20,
-                    backgroundImage: NetworkImage(itemChatModel.image),
+                    backgroundImage: NetworkImage(userModel.image),
                   ),
                   const SizedBox(
                     width: DefualtValue.d10,
@@ -89,7 +94,7 @@ class SingleChat extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          itemChatModel.name,
+                          userModel.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: Theme.of(context)
@@ -100,7 +105,7 @@ class SingleChat extends StatelessWidget {
                                   fontSize: FontSizeManager.fs_16),
                         ),
                         Text(
-                          itemChatModel.date,
+                          userModel.lastActive,
                           style:
                               Theme.of(context).textTheme.bodySmall!.copyWith(
                                     color: ColorsManager.grey,
@@ -114,6 +119,7 @@ class SingleChat extends StatelessWidget {
               ),
             ),
             body: InkWell(
+              overlayColor: MaterialStateProperty.all(Colors.transparent),
               onTap: () {
                 cubit.colseEmoji();
                 FocusScope.of(context).unfocus();
@@ -134,32 +140,48 @@ class SingleChat extends StatelessWidget {
                     Column(
                       children: [
                         Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 222,
-                                  height: 222,
-                                  color: Colors.amber,
-                                ),
-                                Container(
-                                  width: 222,
-                                  height: 222,
-                                  color: Colors.red,
-                                ),
-                                Container(
-                                  width: 222,
-                                  height: 222,
-                                  color: Colors.green,
-                                ),
-                                Container(
-                                  width: 222,
-                                  height: 222,
-                                  color: Colors.amber,
-                                ),
-                              ],
-                            ),
-                          ),
+                          child: StreamBuilder<QuerySnapshot>(
+                              stream: Apis.messageStream(userModel.token),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return const Center(
+                                    child: Text('Something went wrong'),
+                                  );
+                                }
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                    child: Lottie.asset(ImagesManager.loading,
+                                        width: DefualtValue.d30),
+                                  );
+                                }
+
+                                return ListView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: snapshot.data!.docs.length,
+                                    itemBuilder: (context, i) {
+                                      if (snapshot.data!.docs[i]["sendTo"] !=
+                                          userModel.token) {
+                                        return messageYou(
+                                          context,
+                                          MessageModel.fromJson(
+                                              snapshot.data!.docs[i].data()
+                                                  as Map<String, dynamic>),
+                                          userModel.token,
+                                        );
+                                      } else {
+                                        return messageMe(
+                                          context,
+                                          MessageModel.fromJson(
+                                              snapshot.data!.docs[i].data()
+                                                  as Map<String, dynamic>),
+                                          userModel.token,
+                                        );
+                                      }
+                                    });
+                              }),
                         ),
                         // buttom send Message
                         Container(
@@ -204,6 +226,7 @@ class SingleChat extends StatelessWidget {
                                           child: TextFormField(
                                             onTap: () => cubit.colseEmoji(),
                                             focusNode: cubit.focusNode,
+                                            controller: cubit.messageController,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall,
@@ -266,8 +289,22 @@ class SingleChat extends StatelessWidget {
                                 width: DefualtValue.d12,
                               ),
                               InkWell(
-                                onLongPress: () {
-                                  print("Essa");
+                                onTap: () {
+                                  if (cubit.messageController.text != "") {
+                                    cubit.sendMessage(
+                                      userModel.token,
+                                      MessageModel(
+                                        dateRead: "dateRead",
+                                        message: cubit.messageController.text,
+                                        dateSend: DateTime.now()
+                                            .millisecondsSinceEpoch
+                                            .toString(),
+                                        sendTo: userModel.token,
+                                        type: "text",
+                                        read: false,
+                                      ),
+                                    );
+                                  }
                                 },
                                 overlayColor: MaterialStateProperty.all(
                                     Colors.transparent),
@@ -285,7 +322,7 @@ class SingleChat extends StatelessWidget {
                             ],
                           ),
                         ),
-                        keyBoardEmoji(cubit),
+                        keyBoardEmoji(cubit, cubit.messageController),
                       ],
                     ),
                     cubit.showMedia ? media(context) : Container(),
@@ -296,6 +333,95 @@ class SingleChat extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Align messageMe(BuildContext context, MessageModel message, String uid) {
+    Apis.readMessage(uid, message);
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: DefualtValue.d4),
+        constraints: BoxConstraints(maxWidth: DefualtValue.d70.w),
+        padding: const EdgeInsets.all(DefualtValue.d12),
+        decoration: const BoxDecoration(
+          color: ColorsManager.primaryColorLight,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.zero,
+            topRight: Radius.circular(DefualtValue.d25),
+            bottomLeft: Radius.circular(DefualtValue.d25),
+            bottomRight: Radius.circular(DefualtValue.d25),
+          ),
+        ),
+        child: Column(
+          children: [
+            Text(
+              message.message,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(fontSize: FontSizeManager.fs_12),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "م 5:08",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontSize: FontSizeManager.fs_8,
+                      color: ColorsManager.grey),
+                ),
+                const SizedBox(
+                  width: DefualtValue.d4,
+                ),
+                Icon(
+                  FontAwesomeIcons.checkDouble,
+                  size: DefualtValue.d10,
+                  color: message.read ? Colors.blue : ColorsManager.grey,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Align messageYou(BuildContext context, MessageModel message, String uid) {
+    Apis.readMessage(uid, message);
+
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: DefualtValue.d4),
+        constraints: BoxConstraints(maxWidth: DefualtValue.d70.w),
+        padding: const EdgeInsets.symmetric(
+            horizontal: DefualtValue.d12, vertical: DefualtValue.d8),
+        decoration: const BoxDecoration(
+          color: ColorsManager.greyLight,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.zero,
+            topLeft: Radius.circular(DefualtValue.d25),
+            bottomLeft: Radius.circular(DefualtValue.d25),
+            bottomRight: Radius.circular(DefualtValue.d25),
+          ),
+        ),
+        child: Column(
+          children: [
+            Text(
+              message.message,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  fontSize: FontSizeManager.fs_12, color: ColorsManager.black),
+            ),
+            Text(
+              "م 5:08",
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  fontSize: FontSizeManager.fs_8, color: ColorsManager.grey),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

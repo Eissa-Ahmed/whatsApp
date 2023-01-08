@@ -187,5 +187,13 @@
     "createSocity": "Create your community",
     "@createSocity": {
       "description": "createSocity"
+    },
+    "you": "You",
+    "@you": {
+      "you": "you: "
+    },
+    "forYou": "For You: ",
+    "@forYou": {
+      "you": "forYou"
     }
 }

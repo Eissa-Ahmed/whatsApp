@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:whats_app/Domain/itemChatModel.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
+import 'package:sizer/sizer.dart';
+import 'package:whats_app/Data/apis.dart';
+import 'package:whats_app/Domain/userModel.dart';
 import 'package:whats_app/Presentation/Resources/colors_manager.dart';
-import 'package:whats_app/Presentation/Resources/fonts_manager.dart';
+import 'package:whats_app/Presentation/Resources/constants.dart';
+import 'package:whats_app/Presentation/Resources/images_manager.dart';
 import 'package:whats_app/Presentation/Resources/routes_manager.dart';
 import 'package:whats_app/Presentation/Resources/values_manager.dart';
 
@@ -15,38 +21,35 @@ class ChatsScreen extends StatelessWidget {
         onPressed: () {},
         child: const Icon(Icons.message_sharp),
       ),
-      body: Column(
-        children: [
-          itemUserChat(
-            context,
-            ItemChatModel(
-              date: "2023/22/4",
-              image:
-                  "https://firebasestorage.googleapis.com/v0/b/whats-app-713e4.appspot.com/o/BIJkKk20kWTTWQD5TulyGfrb0783%2Fprofile?alt=media&token=9cb797e2-23e1-4743-a2b3-b82cb02b6e65",
-              isActive: false,
-              lastMessage:
-                  "Hello Essa , How Are You Hello Essa , How Are You Hello Essa , How Are You",
-              name: "Essa Ahmed",
-            ),
-          ),
-          itemUserChat(
-            context,
-            ItemChatModel(
-              date: "2023/12/4",
-              image:
-                  "https://firebasestorage.googleapis.com/v0/b/whats-app-713e4.appspot.com/o/profile.png?alt=media&token=b25029c5-93ad-4c7a-b835-f40a91cb5cd2",
-              isActive: true,
-              lastMessage:
-                  "Hello Mohamed , How Are You Hello Mohamed , How Are You Hello Mohamed , How Are You",
-              name: "Mohamed Ahmed",
-            ),
-          ),
-        ],
+      body: StreamBuilder<QuerySnapshot>(
+        stream: Apis.usersStream,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('Something went wrong'),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child:
+                  Lottie.asset(ImagesManager.loading, width: DefualtValue.d18),
+            );
+          }
+          return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, i) {
+                return itemUserChat(
+                    context,
+                    UserModel.fromJson(
+                        snapshot.data!.docs[i].data() as Map<String, dynamic>));
+              });
+        },
       ),
     );
   }
 
-  InkWell itemUserChat(BuildContext context, ItemChatModel itemChatModel) {
+  InkWell itemUserChat(BuildContext context, UserModel itemChatModel) {
     return InkWell(
       onTap: () async {
         await Navigator.of(context).pushNamed(
@@ -76,33 +79,87 @@ class ChatsScreen extends StatelessWidget {
                     itemChatModel.name,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  Text(
-                    itemChatModel.lastMessage,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: ColorsManager.grey),
-                  ),
+                  StreamBuilder<QuerySnapshot>(
+                      stream: Apis.lastMessageStram(itemChatModel.token),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasData &&
+                            snapshot.data!.docs.isNotEmpty) {
+                          return Row(
+                            children: [
+                              Apis.firebaseAuth.currentUser!.uid !=
+                                      snapshot.data!.docs[0]["sendTo"]
+                                  ? Text(
+                                      language(context).you,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(color: ColorsManager.grey),
+                                    )
+                                  : Text(
+                                      language(context).forYou,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(color: ColorsManager.grey),
+                                    ),
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    left: DefualtValue.d2),
+                                constraints: BoxConstraints(
+                                    maxWidth: DefualtValue.d50.w),
+                                child: Text(
+                                  snapshot.data!.docs[0]["message"],
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(color: ColorsManager.grey),
+                                ),
+                              ),
+                              Apis.firebaseAuth.currentUser!.uid !=
+                                      snapshot.data!.docs[0]["sendTo"]
+                                  ? Icon(
+                                      FontAwesomeIcons.checkDouble,
+                                      size: DefualtValue.d10,
+                                      color: snapshot.data!.docs[0]["read"]
+                                          ? Colors.blue
+                                          : ColorsManager.grey,
+                                    )
+                                  : Container(),
+                              const Spacer(),
+                              !snapshot.data!.docs[0]["read"]
+                                  ? const CircleAvatar(
+                                      radius: DefualtValue.d10,
+                                      backgroundColor:
+                                          ColorsManager.primaryColorLight,
+                                    )
+                                  : Text(
+                                      snapshot.data!.docs[0]["dateSend"],
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(color: ColorsManager.grey),
+                                    ),
+                            ],
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }),
                 ],
               ),
             ),
             const SizedBox(
-              width: DefualtValue.d25,
+              width: DefualtValue.d2,
             ),
-            itemChatModel.isActive
+            itemChatModel.active
                 ? const CircleAvatar(
                     radius: DefualtValue.d4,
                     backgroundColor: Colors.green,
                   )
-                : Text(
-                    itemChatModel.date,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: ColorsManager.grey,
-                          fontSize: FontSizeManager.fs_10,
-                        ),
-                  ),
+                : Container(),
           ],
         ),
       ),

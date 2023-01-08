@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whats_app/Data/apis.dart';
 
+import '../../../Domain/messageModel.dart';
+
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -23,6 +25,7 @@ class HomeCubit extends Cubit<HomeState> {
       .collection('users')
       .doc(Apis.firebaseAuth.currentUser!.uid);
   TextEditingController nameController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
   final ImagePicker picker = ImagePicker();
   File? imageProfile;
   FocusNode focusNode = FocusNode();
@@ -100,5 +103,11 @@ class HomeCubit extends Cubit<HomeState> {
       }
     }
     emit(LoginSuccessState());
+  }
+
+  Future sendMessage(String uid, MessageModel message) async {
+    await Apis.sendMessage(uid, message).then((value) {
+      messageController.text = "";
+    });
   }
 }
