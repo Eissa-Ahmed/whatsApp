@@ -6,7 +6,7 @@ import '../../../ViewModel/home_cubit.dart';
 
 Offstage keyBoardEmoji(HomeCubit cubit, TextEditingController controller) {
   return Offstage(
-    offstage: cubit.showEmoji,
+    offstage: !cubit.showEmoji,
     child: SizedBox(
       height: 250,
       child: EmojiPicker(

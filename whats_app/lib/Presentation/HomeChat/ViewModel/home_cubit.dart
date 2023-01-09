@@ -29,7 +29,7 @@ class HomeCubit extends Cubit<HomeState> {
   final ImagePicker picker = ImagePicker();
   File? imageProfile;
   FocusNode focusNode = FocusNode();
-  bool showEmoji = true;
+  bool showEmoji = false;
   bool showMedia = false;
 
   //Lists
@@ -41,22 +41,27 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void colseEmoji() {
-    if (!showEmoji) {
-      showEmoji = true;
+    if (showEmoji == true) {
+      showEmoji = false;
       emit(CloseEmojiState());
     }
   }
 
-  void toogle() {
+  void toogle(BuildContext context) {
     if (focusNode.hasFocus) {
-      FocusManager.instance.primaryFocus?.unfocus();
-      Future.delayed(
-          const Duration(milliseconds: 100), () => showEmoji = false);
+      FocusScope.of(context).unfocus();
+      Future.delayed(const Duration(milliseconds: 100), () {
+        showEmoji = true;
+        emit(ShowEmojiState());
+      });
     } else {
-      Future.delayed(
-          const Duration(milliseconds: 100), () => showEmoji = false);
+      if (showEmoji == false) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          showEmoji = true;
+          emit(ShowEmojiState());
+        });
+      }
     }
-    emit(ShowEmojiState());
   }
 
   Future<void> imageFormGallery() async {

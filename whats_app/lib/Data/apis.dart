@@ -34,7 +34,19 @@ class Apis {
         .doc(uid)
         .collection("chat")
         .orderBy("dateSend", descending: true)
-        .limit(1)
+        // .limit(1)
+        .snapshots();
+  }
+
+  static Stream<QuerySnapshot> countMesageUnRead(String uid) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("message")
+        .doc(uid)
+        .collection("chat")
+        .where("read", isEqualTo: false)
+        // .limit(1)
         .snapshots();
   }
 
@@ -151,6 +163,16 @@ class Apis {
           .doc(uid)
           .collection("message")
           .doc(firebaseAuth.currentUser!.uid)
+          .collection("chat")
+          .doc(message.dateSend)
+          .update({
+        "read": true,
+      });
+      await firestore
+          .collection("users")
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection("message")
+          .doc(uid)
           .collection("chat")
           .doc(message.dateSend)
           .update({

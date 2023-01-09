@@ -4,9 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:whats_app/Data/apis.dart';
+import 'package:whats_app/Data/toDate.dart';
 import 'package:whats_app/Domain/userModel.dart';
 import 'package:whats_app/Presentation/Resources/colors_manager.dart';
 import 'package:whats_app/Presentation/Resources/constants.dart';
+import 'package:whats_app/Presentation/Resources/fonts_manager.dart';
 import 'package:whats_app/Presentation/Resources/images_manager.dart';
 import 'package:whats_app/Presentation/Resources/routes_manager.dart';
 import 'package:whats_app/Presentation/Resources/values_manager.dart';
@@ -129,18 +131,45 @@ class ChatsScreen extends StatelessWidget {
                                     )
                                   : Container(),
                               const Spacer(),
-                              !snapshot.data!.docs[0]["read"]
-                                  ? const CircleAvatar(
-                                      radius: DefualtValue.d10,
-                                      backgroundColor:
-                                          ColorsManager.primaryColorLight,
+                              !snapshot.data!.docs[0]["read"] &&
+                                      snapshot.data!.docs[0]["sendTo"] ==
+                                          Apis.firebaseAuth.currentUser!.uid
+                                  ? StreamBuilder<QuerySnapshot>(
+                                      stream: Apis.countMesageUnRead(
+                                          itemChatModel.token),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot>
+                                              snapshot) {
+                                        if (snapshot.hasData) {
+                                          return CircleAvatar(
+                                            radius: DefualtValue.d10,
+                                            backgroundColor:
+                                                ColorsManager.primaryColorLight,
+                                            child: Text(
+                                              "${snapshot.data!.docs.length}",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .copyWith(
+                                                      color:
+                                                          ColorsManager.white,
+                                                      fontSize: FontSizeManager
+                                                          .fs_10),
+                                            ),
+                                          );
+                                        }
+                                        return Container();
+                                      },
                                     )
                                   : Text(
-                                      snapshot.data!.docs[0]["dateSend"],
+                                      toDate(int.parse(
+                                          snapshot.data!.docs[0]["dateSend"])),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
-                                          .copyWith(color: ColorsManager.grey),
+                                          .copyWith(
+                                              color: ColorsManager.grey,
+                                              fontSize: FontSizeManager.fs_10),
                                     ),
                             ],
                           );
@@ -154,12 +183,12 @@ class ChatsScreen extends StatelessWidget {
             const SizedBox(
               width: DefualtValue.d2,
             ),
-            itemChatModel.active
-                ? const CircleAvatar(
-                    radius: DefualtValue.d4,
-                    backgroundColor: Colors.green,
-                  )
-                : Container(),
+            // itemChatModel.active
+            //     ? const CircleAvatar(
+            //         radius: DefualtValue.d4,
+            //         backgroundColor: Colors.green,
+            //       )
+            //     : Container(),
           ],
         ),
       ),

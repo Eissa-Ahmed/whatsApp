@@ -66,7 +66,7 @@ class InfoScreen extends StatelessWidget {
                         children: [
                           IconButton(
                             onPressed: () {
-                              cubit.toogle();
+                              cubit.toogle(context);
                             },
                             icon: const Icon(
                               FontAwesomeIcons.faceSmile,
