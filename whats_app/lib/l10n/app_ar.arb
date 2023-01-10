@@ -202,5 +202,22 @@
   "imageLast": "صورة",
   "@imageLast": {
     "you": "imageLast"
+  },
+  "deleteMe": "الحذف لدى",
+  "@deleteMe": {
+    "you": "deleteMe"
+  },
+  "deleteAll": "الحذف لدى الجميع",
+  "@deleteAll": {
+    "you": "deleteAll"
+  },
+  "cancle": "الغاء",
+  "@cancle": {
+    "you": "cancle"
+  }
+  ,
+  "deleteM": "حذف الرساله؟",
+  "@deleteM": {
+    "you": "deleteM"
   }
 }

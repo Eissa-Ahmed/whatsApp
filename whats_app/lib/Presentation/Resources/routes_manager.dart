@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whats_app/Domain/messageModel.dart';
 import 'package:whats_app/Presentation/Auth/View/Lang/lang_screen.dart';
 import 'package:whats_app/Presentation/Auth/View/Login/login_screen.dart';
 import 'package:whats_app/Presentation/Auth/View/PinCode/pinCode_screen.dart';
@@ -6,6 +7,7 @@ import 'package:whats_app/Presentation/HomeChat/View/Info/info_screen.dart';
 import 'package:whats_app/Presentation/HomeChat/View/Info/loading_screen.dart';
 import 'package:whats_app/Presentation/HomeChat/View/SingleChat/Widgets/sendPhoto.dart';
 import 'package:whats_app/Presentation/HomeChat/View/SingleChat/singleChat.dart';
+import 'package:whats_app/Presentation/HomeChat/View/SingleChat/viewImage.dart';
 import 'package:whats_app/Presentation/Resources/strings_manager.dart';
 
 import '../../Domain/userModel.dart';
@@ -22,6 +24,7 @@ class Pages {
   static const String loading = "/loading";
   static const String singleChat = "/singleChat";
   static const String sendPhotoo = "/sendPhotoo";
+  static const String viewImage = "/viewImage";
 }
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -51,6 +54,12 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (_) => SendPhoto(
                 user: args,
+              ));
+    case Pages.viewImage:
+      MessageModel args = settings.arguments as MessageModel;
+      return MaterialPageRoute(
+          builder: (_) => ViewImage(
+                message: args,
               ));
     default:
       return MaterialPageRoute(

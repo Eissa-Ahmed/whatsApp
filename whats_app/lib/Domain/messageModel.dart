@@ -7,6 +7,7 @@ class MessageModel {
   String dis;
   String namePhoto;
   bool read;
+  bool selected;
   MessageModel({
     required this.dateRead,
     required this.message,
@@ -16,6 +17,7 @@ class MessageModel {
     required this.read,
     required this.dis,
     required this.namePhoto,
+    required this.selected,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class MessageModel {
       read: json["read"],
       dis: json["dis"],
       namePhoto: json["namePhoto"],
+      selected: json["selected"],
     );
   }
   Map<String, dynamic> toJson() {
@@ -40,6 +43,7 @@ class MessageModel {
       "read": read,
       "dis": dis,
       "namePhoto": namePhoto,
+      "selected": selected,
     };
   }
 }

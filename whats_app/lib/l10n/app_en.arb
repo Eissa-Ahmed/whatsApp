@@ -203,5 +203,21 @@
     "imageLast": "image",
     "@imageLast": {
       "you": "imageLast"
+    },
+    "deleteMe": "Dlete Me",
+    "@deleteMe": {
+      "you": "deleteMe"
+    },
+    "deleteAll": "Delete From All",
+    "@deleteAll": {
+      "you": "deleteAll"
+    },
+    "cancle": "Cancle",
+    "@cancle": {
+      "you": "cancle"
+    },
+    "deleteM": "Delete Message?",
+    "@deleteM": {
+      "you": "deleteM"
     }
 }

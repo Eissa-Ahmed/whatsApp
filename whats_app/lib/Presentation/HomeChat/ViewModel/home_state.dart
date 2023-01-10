@@ -17,4 +17,8 @@ class ToggleButtomSendState extends HomeState {}
 
 class SendMessagePhotoLoading extends HomeState {}
 
+class ShowSelectedState extends HomeState {}
+
+class ClosesSelectedState extends HomeState {}
+
 // class SendMessagePhotoSuccess extends HomeState {}

@@ -185,4 +185,40 @@ class Apis {
       });
     }
   }
+
+  static changeSelectedBox(MessageModel message, bool val, String uid) async {
+    await firestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("message")
+        .doc(uid)
+        .collection("chat")
+        .doc(message.dateSend)
+        .update({
+      "selected": val,
+    });
+  }
+
+  static deleteMessageMe(String uid) async {
+    await firestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("message")
+        .doc(uid)
+        .collection("chat")
+        .where("selected", isEqualTo: true)
+        .get()
+        .then((snapshot) async {
+      for (var element in snapshot.docs) {
+        await firestore
+            .collection("users")
+            .doc(firebaseAuth.currentUser!.uid)
+            .collection("message")
+            .doc(uid)
+            .collection("chat")
+            .doc(element.id)
+            .delete();
+      }
+    });
+  }
 }

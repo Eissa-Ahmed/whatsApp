@@ -27,6 +27,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   //Var
   bool loading = false;
+  bool selected = false;
   File? imageFromDevice;
   String imgDownloader = "";
   DocumentReference users = FirebaseFirestore.instance
@@ -161,6 +162,7 @@ class HomeCubit extends Cubit<HomeState> {
     await Apis.sendMessage(
       user.token,
       MessageModel(
+        selected: false,
         namePhoto: basename(imageFromDevice!.path),
         dis: dismessageController.text,
         dateRead: "",
@@ -172,5 +174,15 @@ class HomeCubit extends Cubit<HomeState> {
       ),
     );
     loading = false;
+  }
+
+  void toogleSelected() {
+    if (selected) {
+      selected = false;
+      emit(ClosesSelectedState());
+    } else {
+      selected = true;
+      emit(ShowSelectedState());
+    }
   }
 }
