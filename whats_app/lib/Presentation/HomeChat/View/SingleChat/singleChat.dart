@@ -1,15 +1,14 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sizer/sizer.dart';
 import 'package:whats_app/Data/apis.dart';
 import 'package:whats_app/Domain/messageModel.dart';
 import 'package:whats_app/Domain/userModel.dart';
 import 'package:whats_app/Presentation/HomeChat/View/Info/Widgets/keyBoardEmoji.dart';
+import 'package:whats_app/Presentation/HomeChat/View/SingleChat/Widgets/messageSend.dart';
 import 'package:whats_app/Presentation/HomeChat/ViewModel/home_cubit.dart';
 import 'package:whats_app/Presentation/Resources/fonts_manager.dart';
 import 'package:whats_app/Presentation/Resources/images_manager.dart';
@@ -17,6 +16,7 @@ import 'package:whats_app/Presentation/Resources/images_manager.dart';
 import '../../../Resources/colors_manager.dart';
 import '../../../Resources/constants.dart';
 import '../../../Resources/values_manager.dart';
+import 'Widgets/media.dart';
 
 class SingleChat extends StatelessWidget {
   SingleChat({super.key, required this.userModel});
@@ -157,21 +157,17 @@ class SingleChat extends StatelessWidget {
                                 itemBuilder: (context, i) {
                                   if (snapshot.data!.docs[i]["sendTo"] !=
                                       userModel.token) {
-                                    return messageYou(
-                                      context,
-                                      MessageModel.fromJson(
-                                          snapshot.data!.docs[i].data()
-                                              as Map<String, dynamic>),
-                                      userModel.token,
-                                    );
+                                    return MessageYou(
+                                        message: MessageModel.fromJson(
+                                            snapshot.data!.docs[i].data()
+                                                as Map<String, dynamic>),
+                                        uid: userModel.token);
                                   } else {
-                                    return messageMe(
-                                      context,
-                                      MessageModel.fromJson(
-                                          snapshot.data!.docs[i].data()
-                                              as Map<String, dynamic>),
-                                      userModel.token,
-                                    );
+                                    return MessageMe(
+                                        message: MessageModel.fromJson(
+                                            snapshot.data!.docs[i].data()
+                                                as Map<String, dynamic>),
+                                        uid: userModel.token);
                                   }
                                 });
                           }),
@@ -215,6 +211,10 @@ class SingleChat extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: TextFormField(
+                                        onChanged: (val) {
+                                          cubit.toggleSendIcon();
+                                        },
+                                        keyboardType: TextInputType.multiline,
                                         onTap: () => cubit.colseEmoji(),
                                         focusNode: cubit.focusNode,
                                         controller: cubit.messageController,
@@ -237,26 +237,34 @@ class SingleChat extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    InkWell(
-                                      overlayColor: MaterialStateProperty.all(
-                                          Colors.transparent),
-                                      onTap: () {
-                                        cubit.showMediaList();
+                                    BlocBuilder<HomeCubit, HomeState>(
+                                      builder: (context, state) {
+                                        return InkWell(
+                                          overlayColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.transparent),
+                                          onTap: () {
+                                            cubit.showMediaList();
+                                          },
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(
+                                                DefualtValue.d10),
+                                            child: Icon(
+                                              FontAwesomeIcons.paperclip,
+                                              size: DefualtValue.d20,
+                                              color: ColorsManager.grey,
+                                            ),
+                                          ),
+                                        );
                                       },
-                                      child: const Padding(
-                                        padding:
-                                            EdgeInsets.all(DefualtValue.d10),
-                                        child: Icon(
-                                          FontAwesomeIcons.paperclip,
-                                          size: DefualtValue.d20,
-                                          color: ColorsManager.grey,
-                                        ),
-                                      ),
                                     ),
                                     InkWell(
                                       overlayColor: MaterialStateProperty.all(
                                           Colors.transparent),
-                                      onTap: () {},
+                                      onTap: () {
+                                        cubit.imageFormCamera(
+                                            context, userModel);
+                                      },
                                       child: const Padding(
                                         padding:
                                             EdgeInsets.all(DefualtValue.d10),
@@ -281,6 +289,8 @@ class SingleChat extends StatelessWidget {
                                 cubit.sendMessage(
                                   userModel.token,
                                   MessageModel(
+                                    namePhoto: "",
+                                    dis: "",
                                     dateRead: "dateRead",
                                     message: cubit.messageController.text,
                                     dateSend: DateTime.now()
@@ -295,13 +305,13 @@ class SingleChat extends StatelessWidget {
                             },
                             overlayColor:
                                 MaterialStateProperty.all(Colors.transparent),
-                            child: const CircleAvatar(
+                            child: CircleAvatar(
                               radius: DefualtValue.d25,
                               backgroundColor: ColorsManager.primaryColorLight,
-                              child: Icon(
-                                FontAwesomeIcons.microphone,
-                                color: ColorsManager.white,
-                                size: DefualtValue.d18,
+                              child: BlocBuilder<HomeCubit, HomeState>(
+                                builder: (context, state) {
+                                  return cubit.icon;
+                                },
                               ),
                             ),
                           ),
@@ -320,164 +330,6 @@ class SingleChat extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Align messageMe(BuildContext context, MessageModel message, String uid) {
-    Apis.readMessage(uid, message);
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: DefualtValue.d4),
-        constraints: BoxConstraints(maxWidth: DefualtValue.d70.w),
-        padding: const EdgeInsets.all(DefualtValue.d12),
-        decoration: const BoxDecoration(
-          color: ColorsManager.primaryColorLight,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.zero,
-            topRight: Radius.circular(DefualtValue.d25),
-            bottomLeft: Radius.circular(DefualtValue.d25),
-            bottomRight: Radius.circular(DefualtValue.d25),
-          ),
-        ),
-        child: Column(
-          children: [
-            Text(
-              message.message,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(fontSize: FontSizeManager.fs_12),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "م 5:08",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: FontSizeManager.fs_8,
-                      color: ColorsManager.grey),
-                ),
-                const SizedBox(
-                  width: DefualtValue.d4,
-                ),
-                Icon(
-                  FontAwesomeIcons.checkDouble,
-                  size: DefualtValue.d10,
-                  color: message.read ? Colors.blue : ColorsManager.grey,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Align messageYou(BuildContext context, MessageModel message, String uid) {
-    Apis.readMessage(uid, message);
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: DefualtValue.d4),
-        constraints: BoxConstraints(maxWidth: DefualtValue.d70.w),
-        padding: const EdgeInsets.symmetric(
-            horizontal: DefualtValue.d12, vertical: DefualtValue.d8),
-        decoration: const BoxDecoration(
-          color: ColorsManager.greyLight,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.zero,
-            topLeft: Radius.circular(DefualtValue.d25),
-            bottomLeft: Radius.circular(DefualtValue.d25),
-            bottomRight: Radius.circular(DefualtValue.d25),
-          ),
-        ),
-        child: Column(
-          children: [
-            Text(
-              message.message,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontSize: FontSizeManager.fs_12, color: ColorsManager.black),
-            ),
-            Text(
-              "م 5:08",
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontSize: FontSizeManager.fs_8, color: ColorsManager.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Positioned media(BuildContext context) {
-    return Positioned(
-      bottom: DefualtValue.d60,
-      right: DefualtValue.d0,
-      left: DefualtValue.d0,
-      child: FlipInX(
-        animate: true,
-        duration: duration(DurationManager.d200),
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-              horizontal: PaddingManager.p40, vertical: PaddingManager.p14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(DefualtValue.d12),
-            color: ColorsManager.coral,
-          ),
-          child: Wrap(
-            children: [
-              itemMedia(
-                  context, FontAwesomeIcons.image, Colors.amber, "المعرض"),
-              itemMedia(
-                  context, FontAwesomeIcons.image, Colors.green, "المعرض"),
-              itemMedia(context, FontAwesomeIcons.image, Colors.red, "المعرض"),
-              itemMedia(context, FontAwesomeIcons.image, Colors.blue, "المعرض"),
-              itemMedia(
-                  context, FontAwesomeIcons.image, Colors.orange, "المعرض"),
-              itemMedia(context, FontAwesomeIcons.image, Colors.cyan, "المعرض"),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Padding itemMedia(
-      BuildContext context, IconData icon, MaterialColor color, String text) {
-    return Padding(
-      padding: const EdgeInsets.all(DefualtValue.d14),
-      child: Column(
-        children: [
-          Container(
-            width: DefualtValue.d60,
-            height: DefualtValue.d60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  color,
-                  color.withOpacity(0.5),
-                ],
-              ),
-            ),
-            child: Icon(
-              icon,
-              size: DefualtValue.d25,
-            ),
-          ),
-          Text(
-            text,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: ColorsManager.grey),
-          ),
-        ],
       ),
     );
   }

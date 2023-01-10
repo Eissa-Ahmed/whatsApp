@@ -12,3 +12,9 @@ class ShowEmojiState extends HomeState {}
 class CloseEmojiState extends HomeState {}
 
 class ShowMediaListState extends HomeState {}
+
+class ToggleButtomSendState extends HomeState {}
+
+class SendMessagePhotoLoading extends HomeState {}
+
+// class SendMessagePhotoSuccess extends HomeState {}

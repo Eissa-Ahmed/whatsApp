@@ -111,7 +111,9 @@ class ChatsScreen extends StatelessWidget {
                                 constraints: BoxConstraints(
                                     maxWidth: DefualtValue.d50.w),
                                 child: Text(
-                                  snapshot.data!.docs[0]["message"],
+                                  snapshot.data!.docs[0]["type"] == "image"
+                                      ? language(context).imageLast
+                                      : snapshot.data!.docs[0]["message"],
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)

@@ -195,5 +195,13 @@
     "forYou": "For You: ",
     "@forYou": {
       "you": "forYou"
+    },
+    "addDis": "add explanation ...",
+    "@addDis": {
+      "you": "addDis"
+    },
+    "imageLast": "image",
+    "@imageLast": {
+      "you": "imageLast"
     }
 }

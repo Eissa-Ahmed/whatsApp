@@ -4,6 +4,8 @@ class MessageModel {
   String dateRead;
   String sendTo;
   String type;
+  String dis;
+  String namePhoto;
   bool read;
   MessageModel({
     required this.dateRead,
@@ -12,6 +14,8 @@ class MessageModel {
     required this.sendTo,
     required this.type,
     required this.read,
+    required this.dis,
+    required this.namePhoto,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +26,8 @@ class MessageModel {
       sendTo: json["sendTo"],
       type: json["type"],
       read: json["read"],
+      dis: json["dis"],
+      namePhoto: json["namePhoto"],
     );
   }
   Map<String, dynamic> toJson() {
@@ -32,6 +38,8 @@ class MessageModel {
       "sendTo": sendTo,
       "type": type,
       "read": read,
+      "dis": dis,
+      "namePhoto": namePhoto,
     };
   }
 }

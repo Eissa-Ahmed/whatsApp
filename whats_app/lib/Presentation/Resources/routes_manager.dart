@@ -4,6 +4,7 @@ import 'package:whats_app/Presentation/Auth/View/Login/login_screen.dart';
 import 'package:whats_app/Presentation/Auth/View/PinCode/pinCode_screen.dart';
 import 'package:whats_app/Presentation/HomeChat/View/Info/info_screen.dart';
 import 'package:whats_app/Presentation/HomeChat/View/Info/loading_screen.dart';
+import 'package:whats_app/Presentation/HomeChat/View/SingleChat/Widgets/sendPhoto.dart';
 import 'package:whats_app/Presentation/HomeChat/View/SingleChat/singleChat.dart';
 import 'package:whats_app/Presentation/Resources/strings_manager.dart';
 
@@ -20,10 +21,17 @@ class Pages {
   static const String home = "/home";
   static const String loading = "/loading";
   static const String singleChat = "/singleChat";
+  static const String sendPhotoo = "/sendPhotoo";
 }
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
+    case Pages.singleChat:
+      UserModel args = settings.arguments as UserModel;
+      return MaterialPageRoute(
+          builder: (_) => SingleChat(
+                userModel: args,
+              ));
     case Pages.lang:
       return MaterialPageRoute(builder: (_) => const LangScreen());
     case Pages.welcome:
@@ -38,11 +46,11 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const HomeScreen());
     case Pages.loading:
       return MaterialPageRoute(builder: (_) => const LoadingScreen());
-    case Pages.singleChat:
+    case Pages.sendPhotoo:
       UserModel args = settings.arguments as UserModel;
       return MaterialPageRoute(
-          builder: (_) => SingleChat(
-                userModel: args,
+          builder: (_) => SendPhoto(
+                user: args,
               ));
     default:
       return MaterialPageRoute(

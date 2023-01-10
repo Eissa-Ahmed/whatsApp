@@ -194,5 +194,13 @@
   "forYou": "لك: ",
   "@forYou": {
     "you": "forYou"
+  },
+  "addDis": "اضافة شرح...",
+  "@addDis": {
+    "you": "addDis"
+  },
+  "imageLast": "صورة",
+  "@imageLast": {
+    "you": "imageLast"
   }
 }

@@ -123,14 +123,14 @@ class Apis {
     });
   }
 
-  Future uploadFiles(File file, String name) async {
+  static Future uploadFiles(File file, String name) async {
     await storageRef
         .child(firebaseAuth.currentUser!.uid)
         .child(name)
         .putFile(file);
   }
 
-  Future<String> downloadFiles(String name) async {
+  static Future<String> downloadFiles(String name) async {
     return await storageRef
         .child(firebaseAuth.currentUser!.uid)
         .child(name)
@@ -156,8 +156,11 @@ class Apis {
         .set(message.toJson());
   }
 
+  // static String dateRead = DateTime.now().millisecondsSinceEpoch.toString();
+
   static Future readMessage(String uid, MessageModel message) async {
-    if (firebaseAuth.currentUser!.uid == message.sendTo) {
+    if (firebaseAuth.currentUser!.uid == message.sendTo &&
+        message.read == false) {
       await firestore
           .collection("users")
           .doc(uid)
@@ -167,6 +170,7 @@ class Apis {
           .doc(message.dateSend)
           .update({
         "read": true,
+        "dateRead": DateTime.now().millisecondsSinceEpoch.toString(),
       });
       await firestore
           .collection("users")
@@ -177,6 +181,7 @@ class Apis {
           .doc(message.dateSend)
           .update({
         "read": true,
+        "dateRead": DateTime.now().millisecondsSinceEpoch.toString(),
       });
     }
   }
